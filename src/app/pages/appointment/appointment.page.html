@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons color="secondary" slot="start">
+      <ion-back-button text></ion-back-button>
+    </ion-buttons>
+    <ion-title color="secondary">Appointments details</ion-title>
+    <ion-icon color="secondary" name="more" mode="md" slot="end" size="large"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+  
+<ion-content mode="md">
+  <section class="info">
+    <div class="info__date">
+      <div class="info__date--time">{{ currentDate | async | date:'h:mm a' }}</div>
+      <div class="info__date--date">{{ currentDate | async | date:'EEEE, d MMMM' }}</div>
+      <div class="info__status">
+          <ion-button size="small" color="success">In progress</ion-button>  
+      </div>
+    </div>
+    <div class="info__involved">
+      <div class="info__involved__item">
+        <div class="iii-photo"></div>
+        <div class="iii-name">Zoe Walker</div>
+        <div class="iii-status">Grandmother</div>
+      </div>
+      <div class="info__involved__item">
+        <div class="iii-photo"></div>
+        <div class="iii-name">Mina Ballard</div>
+        <div class="iii-status">Psychologist</div>
+      </div>
+    </div>
+  </section>
+  <section class="detalies">
+    <div class="detalies__item">
+      Started
+      <div class="detalies__item--title">
+        <ion-icon name="time" mode="md" size="large"></ion-icon>
+        <span>10:32 AM</span>
+      </div>
+    </div>
+    <div class="detalies__item">
+      Finished
+      <div class="detalies__item--title">
+        <ion-icon name="time" mode="md" size="large"></ion-icon>
+        <span>-</span>
+      </div>
+    </div>
+    <div class="detalies__item">
+      Billed
+      <div class="detalies__item--title">
+        <ion-icon name="hourglass" mode="md" size="large"></ion-icon>
+        <span>0 hours</span>
+      </div>
+    </div>
+    <div class="detalies__item">
+      Cost
+      <div class="detalies__item--title">
+        <ion-icon name="cash" mode="md" size="large"></ion-icon>
+        <span>-</span>
+      </div>
+    </div>
+  </section>
+  <section class="actions">
+    <div class="actions__finish">
+      <ion-button expand="block" color="danger">
+        <ion-icon name="arrow-forward" mode="md"></ion-icon>
+        Swipe to finish appointment
+      </ion-button>
+    </div>
+    <div class="actions__tabs">
+      <ion-segment value="careplane" (ionChange)="segmentChanged($event)" mode="md">
+        <ion-segment-button value="logbook" mode="md">
+          <ion-label>Logbook</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="careplane" mode="md">
+          <ion-label>Care plane</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <ion-list class="actions__todo-list">
+      <ion-item class="actions__todo-list__item" lines="none">
+        <ion-checkbox slot="start" mode="md"></ion-checkbox>
+        <ion-label text-wrap>
+          <div class="title">Shower</div>
+          <div class="desc">Some big lorem text from iternet Some big lorem text from iternet</div>
+        </ion-label>
+        <ion-button class="time">All day</ion-button>
+      </ion-item>
+      <ion-item class="actions__todo-list__item" lines="none">
+        <ion-checkbox slot="start" mode="md"></ion-checkbox>
+        <ion-label text-wrap>
+          <div class="title">Shower</div>
+          <div class="desc">Some big lorem text from iternet Some big lorem text from iternet</div>
+        </ion-label>
+        <ion-button class="time">All day</ion-button>
+      </ion-item>
+      <ion-item class="actions__todo-list__item" lines="none">
+        <ion-checkbox slot="start" mode="md"></ion-checkbox>
+        <ion-label text-wrap>
+          <div class="title">Shower</div>
+          <div class="desc">Some big lorem text from iternet</div>
+        </ion-label>
+        <ion-button class="time">10:00 AM</ion-button>
+      </ion-item>
+    </ion-list>
+  </section>
+</ion-content>
+  
