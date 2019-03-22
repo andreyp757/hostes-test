@@ -14,35 +14,33 @@
       <div class="info__date--time">{{ currentDate | async | date:'h:mm a' }}</div>
       <div class="info__date--date">{{ currentDate | async | date:'EEEE, d MMMM' }}</div>
       <div class="info__status">
-          <ion-button size="small" color="success">In progress</ion-button>  
+        <ion-button size="small" [color]="(state | async).progress.color" (click)="changeStatus()">
+            {{ (state | async).progress.text }}
+        </ion-button>  
       </div>
     </div>
     <div class="info__involved">
-      <div class="info__involved__item">
-        <div class="iii-photo"></div>
-        <div class="iii-name">Zoe Walker</div>
-        <div class="iii-status">Grandmother</div>
-      </div>
-      <div class="info__involved__item">
-        <div class="iii-photo"></div>
-        <div class="iii-name">Mina Ballard</div>
-        <div class="iii-status">Psychologist</div>
+      <div class="info__involved__item" *ngFor="let person of (state | async).involved">
+        <div class="iii-photo" [ngStyle]="{ 'background-image': 'url(' + person.image + ')'}"></div>
+        <div class="iii-name">{{ person.name }}</div>
+        <div class="iii-status">{{ person.status }}</div>
       </div>
     </div>
   </section>
   <section class="detalies">
-    <div class="detalies__item">
+    <div class="detalies__item" >
+      <ion-ripple-effect></ion-ripple-effect>
       Started
       <div class="detalies__item--title">
         <ion-icon name="time" mode="md" size="large"></ion-icon>
-        <span>10:32 AM</span>
+        <span>{{ currentDate | async | date:'h:mm a' }}</span>
       </div>
     </div>
     <div class="detalies__item">
       Finished
       <div class="detalies__item--title">
         <ion-icon name="time" mode="md" size="large"></ion-icon>
-        <span>-</span>
+        <span>{{ currentDatePlusHour | date:'h:mm a'}}</span>
       </div>
     </div>
     <div class="detalies__item">
@@ -62,13 +60,13 @@
   </section>
   <section class="actions">
     <div class="actions__finish">
-      <ion-button expand="block" color="danger">
+      <ion-button expand="block" [color]="isFinished ? 'success' : 'danger'" (swiperight)="wasSwiped()">
         <ion-icon name="arrow-forward" mode="md"></ion-icon>
         Swipe to finish appointment
       </ion-button>
     </div>
     <div class="actions__tabs">
-      <ion-segment value="careplane" (ionChange)="segmentChanged($event)" mode="md">
+      <ion-segment value="careplane" (ionChange)="tabChanged($event)" mode="md">
         <ion-segment-button value="logbook" mode="md">
           <ion-label>Logbook</ion-label>
         </ion-segment-button>
@@ -78,30 +76,16 @@
       </ion-segment>
     </div>
     <ion-list class="actions__todo-list">
-      <ion-item class="actions__todo-list__item" lines="none">
-        <ion-checkbox slot="start" mode="md"></ion-checkbox>
-        <ion-label text-wrap>
-          <div class="title">Shower</div>
-          <div class="desc">Some big lorem text from iternet Some big lorem text from iternet</div>
-        </ion-label>
-        <ion-button class="time">All day</ion-button>
-      </ion-item>
-      <ion-item class="actions__todo-list__item" lines="none">
-        <ion-checkbox slot="start" mode="md"></ion-checkbox>
-        <ion-label text-wrap>
-          <div class="title">Shower</div>
-          <div class="desc">Some big lorem text from iternet Some big lorem text from iternet</div>
-        </ion-label>
-        <ion-button class="time">All day</ion-button>
-      </ion-item>
-      <ion-item class="actions__todo-list__item" lines="none">
-        <ion-checkbox slot="start" mode="md"></ion-checkbox>
-        <ion-label text-wrap>
-          <div class="title">Shower</div>
-          <div class="desc">Some big lorem text from iternet</div>
-        </ion-label>
-        <ion-button class="time">10:00 AM</ion-button>
-      </ion-item>
+      <ng-container *ngFor="let item of (state | async).todos; let i = index;" >
+          <ion-item lines="none" class="actions__todo-list__item" *ngIf="item.type === activeTab">
+            <ion-checkbox slot="start" mode="md" [(ngModel)]="checkboxActivated[i]"></ion-checkbox>
+            <ion-label text-wrap>
+              <div class="title">{{ item.title }}</div>
+              <div class="desc">{{ item.description }}</div>
+            </ion-label>
+            <ion-button class="time" (click)="checkboxActivated[i] && removeItem(item.id); checkboxActivated[i] = false">{{ item.time }}</ion-button>
+          </ion-item>
+      </ng-container>
     </ion-list>
   </section>
 </ion-content>
