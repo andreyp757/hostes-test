@@ -18,7 +18,7 @@ export class AppointmentPage implements OnInit {
     { text: 'In progress', color: 'success' }
   ]
   public currentDate: Observable<any>;
-  public checkboxActivated: [] = [];
+  public checkboxActivated: any = [];
   public currentDatePlusHour: any;
   public state: any;
   public activeTab: string = 'careplane';
